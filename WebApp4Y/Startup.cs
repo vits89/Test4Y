@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Nancy.Owin;
 using WebApp4Y.Helpers;
 using WebApp4Y.Models;
@@ -25,7 +26,7 @@ namespace WebApp4Y
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var apiOptions = ConfigurationBinder.Get<ApiOptions>(Configuration.GetSection("Api"));
 

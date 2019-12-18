@@ -10,13 +10,13 @@ namespace WebApp4Y.Tests
 {
     public class ArticleModuleTests
     {
-        private readonly Browser browser;
+        private readonly Browser _browser;
 
         public ArticleModuleTests()
         {
             ITopStoriesApiHelper fakeTopStoriesApiHelper = new FakeTopStoriesApiHelper();
 
-            browser = new Browser(c =>
+            _browser = new Browser(c =>
             {
                 c.Module<ArticleModule>();
                 c.Dependency(fakeTopStoriesApiHelper);
@@ -26,7 +26,7 @@ namespace WebApp4Y.Tests
         [Fact]
         public async void Test1()
         {
-            var response = await browser.Get("/article/2VB2HIZ");
+            var response = await _browser.Get("/article/2VB2HIZ");
 
             var article = response.Body.DeserializeJson<ArticleView>();
 
@@ -38,7 +38,7 @@ namespace WebApp4Y.Tests
         [Fact]
         public async void Test2()
         {
-            var response = await browser.Get("/article/XXXXXXX");
+            var response = await _browser.Get("/article/XXXXXXX");
 
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }

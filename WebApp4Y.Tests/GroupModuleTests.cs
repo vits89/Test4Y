@@ -10,13 +10,13 @@ namespace WebApp4Y.Tests
 {
     public class GroupModuleTests
     {
-        private readonly Browser browser;
+        private readonly Browser _browser;
 
         public GroupModuleTests()
         {
             ITopStoriesApiHelper fakeTopStoriesApiHelper = new FakeTopStoriesApiHelper();
 
-            browser = new Browser(c =>
+            _browser = new Browser(c =>
             {
                 c.Module<GroupModule>();
                 c.Dependency(fakeTopStoriesApiHelper);
@@ -26,7 +26,7 @@ namespace WebApp4Y.Tests
         [Fact]
         public async void Test1()
         {
-            var response = await browser.Get("/group/home");
+            var response = await _browser.Get("/group/home");
 
             var articleGroups = response.Body.DeserializeJson<ArticleGroupByDateView[]>();
 

@@ -31,7 +31,7 @@ namespace WebApp4Y.Tests.Helpers
                 }
             };
 
-            return Task.Run(() => articles);
+            return Task.FromResult(articles);
         }
     }
 }

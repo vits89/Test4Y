@@ -10,13 +10,13 @@ namespace WebApp4Y.Tests
 {
     public class ListModuleTests
     {
-        private readonly Browser browser;
+        private readonly Browser _browser;
 
         public ListModuleTests()
         {
             ITopStoriesApiHelper fakeTopStoriesApiHelper = new FakeTopStoriesApiHelper();
 
-            browser = new Browser(c =>
+            _browser = new Browser(c =>
             {
                 c.Module<ListModule>();
                 c.Dependency(fakeTopStoriesApiHelper);
@@ -26,7 +26,7 @@ namespace WebApp4Y.Tests
         [Fact]
         public async void Test1()
         {
-            var response = await browser.Get("/list/home");
+            var response = await _browser.Get("/list/home");
 
             var articles = response.Body.DeserializeJson<ArticleView[]>();
 
@@ -38,7 +38,7 @@ namespace WebApp4Y.Tests
         [Fact]
         public async void Test2()
         {
-            var response = await browser.Get("/list/home/first");
+            var response = await _browser.Get("/list/home/first");
 
             var article = response.Body.DeserializeJson<ArticleView>();
 
@@ -50,7 +50,7 @@ namespace WebApp4Y.Tests
         [Fact]
         public async void Test3()
         {
-            var response = await browser.Get("/list/home/2019-05-17");
+            var response = await _browser.Get("/list/home/2019-05-17");
 
             var articles = response.Body.DeserializeJson<ArticleView[]>();
 

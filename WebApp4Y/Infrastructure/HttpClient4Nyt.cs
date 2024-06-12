@@ -1,31 +1,22 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using WebApp4Y.Models;
+﻿using WebApp4Y.Models;
 
-namespace WebApp4Y.Infrastructure
+namespace WebApp4Y.Infrastructure;
+
+public class HttpClient4Nyt(ApiOptions apiOptions) : IHttpClient4Nyt
 {
-    public class HttpClient4Nyt : IHttpClient4Nyt
+    private readonly ApiOptions _apiOptions = apiOptions;
+
+    public async Task<HttpResponseMessage> GetArticlesAsync(string section)
     {
-        private readonly ApiOptions _apiOptions;
+        var uri = $"{_apiOptions.Url}/{section}.json?api-key={_apiOptions.Key}";
 
-        public HttpClient4Nyt(ApiOptions apiOptions)
-        {
-            _apiOptions = apiOptions;
-        }
+        return await SendGetRequestAsync(uri);
+    }
 
-        public async Task<HttpResponseMessage> GetArticlesAsync(string section)
-        {
-            var uri = $"{_apiOptions.Url}/{section}.json?api-key={_apiOptions.Key}";
+    private static async Task<HttpResponseMessage> SendGetRequestAsync(string uri)
+    {
+        using var client = new HttpClient();
 
-            return await SendGetRequestAsync(uri);
-        }
-
-        private async Task<HttpResponseMessage> SendGetRequestAsync(string uri)
-        {
-            using (var client = new HttpClient())
-            {
-                return await client.GetAsync(uri);
-            }
-        }
+        return await client.GetAsync(uri);
     }
 }

@@ -1,12 +1,11 @@
 ﻿using Nancy;
 
-namespace WebApp4Y.Modules
+namespace WebApp4Y.Modules;
+
+public class HomeModule : NancyModule
 {
-    public class HomeModule : NancyModule
+    public HomeModule()
     {
-        public HomeModule()
-        {
-            Get("/", _ => "Hello World!");
-        }
+        Get("/", _ => "Hello World!");
     }
 }

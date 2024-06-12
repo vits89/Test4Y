@@ -1,17 +1,15 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
-namespace WebApp4Y.ViewModels
+namespace WebApp4Y.ViewModels;
+
+public class ArticleView
 {
-    public class ArticleView
-    {
-        [JsonProperty("title")]
-        public string Heading { get; set; }
+    [JsonPropertyName("title")]
+    public string Heading { get; set; } = string.Empty;
 
-        [JsonProperty("updated_date")]
-        public DateTime Updated { get; set; }
+    [JsonPropertyName("updated_date")]
+    public DateTime Updated { get; set; }
 
-        [JsonProperty("short_url")]
-        public string Link { get; set; }
-    }
+    [JsonPropertyName("short_url")]
+    public string? Link { get; set; }
 }

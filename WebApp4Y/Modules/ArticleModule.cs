@@ -1,37 +1,35 @@
-﻿using System.Linq;
-using Nancy;
+﻿using Nancy;
 using WebApp4Y.Helpers;
 
-namespace WebApp4Y.Modules
+namespace WebApp4Y.Modules;
+
+public class ArticleModule : NancyModule
 {
-    public class ArticleModule : NancyModule
+    private readonly ITopStoriesApiHelper _nytTopStoriesApiHelper;
+
+    public ArticleModule(ITopStoriesApiHelper nytTopStoriesApiHelper) : base("/article")
     {
-        private readonly ITopStoriesApiHelper _nytTopStoriesApiHelper;
+        _nytTopStoriesApiHelper = nytTopStoriesApiHelper;
 
-        public ArticleModule(ITopStoriesApiHelper nytTopStoriesApiHelper) : base("/article")
+        Get("/{shortUrl}", async parameters =>
         {
-            _nytTopStoriesApiHelper = nytTopStoriesApiHelper;
+            string shortUrl = parameters.shortUrl;
 
-            Get("/{shortUrl}", async parameters =>
+            var articles = await _nytTopStoriesApiHelper.GetArticlesAsync();
+
+            if (articles is null)
             {
-                string shortUrl = parameters.shortUrl;
+                return HttpStatusCode.InternalServerError;
+            }
 
-                var articles = await _nytTopStoriesApiHelper.GetArticlesAsync();
+            var article = articles.FirstOrDefault(a => a.Link?.EndsWith(shortUrl) ?? false);
 
-                if (articles == null)
-                {
-                    return HttpStatusCode.InternalServerError;
-                }
+            if (article is not null)
+            {
+                return article;
+            }
 
-                var article = articles.FirstOrDefault(a => a.Link?.EndsWith(shortUrl) ?? false);
-
-                if (article != null)
-                {
-                    return article;
-                }
-
-                return HttpStatusCode.NotFound;
-            });
-        }
+            return HttpStatusCode.NotFound;
+        });
     }
 }

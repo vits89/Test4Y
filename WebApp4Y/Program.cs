@@ -1,22 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+﻿using Nancy.Owin;
+using WebApp4Y.Helpers;
+using WebApp4Y.Models;
 
-namespace WebApp4Y
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
 
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(builder =>
-                {
-                    builder.UseStartup<Startup>();
-                });
-        }
-    }
-}
+var apiOptions = ConfigurationBinder.Get<ApiOptions>(builder.Configuration.GetSection("Api"))!;
+
+var app = builder.Build();
+
+app.UseOwin(b => b.UseNancy(o => o.Bootstrapper = new CustomBootstrapper(apiOptions)));
+
+app.Run();

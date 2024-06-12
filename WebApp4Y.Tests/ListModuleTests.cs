@@ -6,57 +6,56 @@ using WebApp4Y.Modules;
 using WebApp4Y.ViewModels;
 using WebApp4Y.Tests.Helpers;
 
-namespace WebApp4Y.Tests
+namespace WebApp4Y.Tests;
+
+public class ListModuleTests
 {
-    public class ListModuleTests
+    private readonly Browser _browser;
+
+    public ListModuleTests()
     {
-        private readonly Browser _browser;
+        ITopStoriesApiHelper fakeTopStoriesApiHelper = new FakeTopStoriesApiHelper();
 
-        public ListModuleTests()
+        _browser = new Browser(c =>
         {
-            ITopStoriesApiHelper fakeTopStoriesApiHelper = new FakeTopStoriesApiHelper();
+            c.Module<ListModule>();
+            c.Dependency(fakeTopStoriesApiHelper);
+        }, c => c.Accept("application/json"));
+    }
 
-            _browser = new Browser(c =>
-            {
-                c.Module<ListModule>();
-                c.Dependency(fakeTopStoriesApiHelper);
-            }, c => c.Accept("application/json"));
-        }
+    [Fact]
+    public async void Test1()
+    {
+        var response = await _browser.Get("/list/home");
 
-        [Fact]
-        public async void Test1()
-        {
-            var response = await _browser.Get("/list/home");
+        var articles = response.Body.DeserializeJson<ArticleView[]>();
 
-            var articles = response.Body.DeserializeJson<ArticleView[]>();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(3, articles.Length);
+    }
 
-            Assert.Equal(3, articles.Length);
-        }
+    [Fact]
+    public async void Test2()
+    {
+        var response = await _browser.Get("/list/home/first");
 
-        [Fact]
-        public async void Test2()
-        {
-            var response = await _browser.Get("/list/home/first");
+        var article = response.Body.DeserializeJson<ArticleView>();
 
-            var article = response.Body.DeserializeJson<ArticleView>();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("Heading 1", article.Heading);
+    }
 
-            Assert.Equal("Heading 1", article.Heading);
-        }
+    [Fact]
+    public async void Test3()
+    {
+        var response = await _browser.Get("/list/home/2019-05-17");
 
-        [Fact]
-        public async void Test3()
-        {
-            var response = await _browser.Get("/list/home/2019-05-17");
+        var articles = response.Body.DeserializeJson<ArticleView[]>();
 
-            var articles = response.Body.DeserializeJson<ArticleView[]>();
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-            Assert.Equal(2, articles.Length);
-        }
+        Assert.Equal(2, articles.Length);
     }
 }

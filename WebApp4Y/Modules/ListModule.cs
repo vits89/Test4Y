@@ -1,67 +1,64 @@
-﻿using System;
-using System.Linq;
-using Nancy;
+﻿using Nancy;
 using WebApp4Y.Helpers;
 
-namespace WebApp4Y.Modules
+namespace WebApp4Y.Modules;
+
+public class ListModule : NancyModule
 {
-    public class ListModule : NancyModule
+    private readonly ITopStoriesApiHelper _nytTopStoriesApiHelper;
+
+    public ListModule(ITopStoriesApiHelper nytTopStoriesApiHelper) : base("/list/{section}")
     {
-        private readonly ITopStoriesApiHelper _nytTopStoriesApiHelper;
+        _nytTopStoriesApiHelper = nytTopStoriesApiHelper;
 
-        public ListModule(ITopStoriesApiHelper nytTopStoriesApiHelper) : base("/list/{section}")
+        Get("/", async parameters =>
         {
-            _nytTopStoriesApiHelper = nytTopStoriesApiHelper;
+            string section = parameters.section;
 
-            Get("/", async parameters =>
+            var articles = await _nytTopStoriesApiHelper.GetArticlesAsync(section);
+
+            if (articles is not null)
             {
-                string section = parameters.section;
+                return articles;
+            }
 
-                var articles = await _nytTopStoriesApiHelper.GetArticlesAsync(section);
+            return HttpStatusCode.InternalServerError;
+        });
 
-                if (articles != null)
-                {
-                    return articles;
-                }
+        Get("/first", async parameters =>
+        {
+            string section = parameters.section;
 
+            var articles = await _nytTopStoriesApiHelper.GetArticlesAsync(section);
+
+            if (articles is null)
+            {
                 return HttpStatusCode.InternalServerError;
-            });
+            }
 
-            Get("/first", async parameters =>
+            var article = articles.FirstOrDefault();
+
+            if (article is not null)
             {
-                string section = parameters.section;
+                return article;
+            }
 
-                var articles = await _nytTopStoriesApiHelper.GetArticlesAsync(section);
+            return HttpStatusCode.NotFound;
+        });
 
-                if (articles == null)
-                {
-                    return HttpStatusCode.InternalServerError;
-                }
+        Get("/{updatedDate:datetime(yyyy-MM-dd)}", async parameters =>
+        {
+            string section = parameters.section;
+            DateTime updatedDate = parameters.updatedDate;
 
-                var article = articles.FirstOrDefault();
+            var articles = await _nytTopStoriesApiHelper.GetArticlesAsync(section);
 
-                if (article != null)
-                {
-                    return article;
-                }
-
-                return HttpStatusCode.NotFound;
-            });
-
-            Get("/{updatedDate:datetime(yyyy-MM-dd)}", async parameters =>
+            if (articles is not null)
             {
-                string section = parameters.section;
-                DateTime updatedDate = parameters.updatedDate;
+                return articles.Where(a => a.Updated.Date == updatedDate);
+            }
 
-                var articles = await _nytTopStoriesApiHelper.GetArticlesAsync(section);
-
-                if (articles != null)
-                {
-                    return articles.Where(a => a.Updated.Date == updatedDate);
-                }
-
-                return HttpStatusCode.InternalServerError;
-            });
-        }
+            return HttpStatusCode.InternalServerError;
+        });
     }
 }

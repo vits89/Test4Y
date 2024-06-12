@@ -1,8 +1,7 @@
-﻿namespace WebApp4Y.Models
+﻿namespace WebApp4Y.Models;
+
+public class ApiOptions
 {
-    public class ApiOptions
-    {
-        public string Url { get; set; }
-        public string Key { get; set; }
-    }
+    public required string Url { get; set; }
+    public required string Key { get; set; }
 }

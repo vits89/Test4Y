@@ -1,34 +1,25 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using System.Text.Json;
 using WebApp4Y.Infrastructure;
 using WebApp4Y.Models;
 using WebApp4Y.ViewModels;
 
-namespace WebApp4Y.Helpers
+namespace WebApp4Y.Helpers;
+
+public class NytTopStoriesApiHelper(IHttpClient4Nyt httpClient4Nyt) : ITopStoriesApiHelper
 {
-    public class NytTopStoriesApiHelper : ITopStoriesApiHelper
+    public async Task<ArticleView[]> GetArticlesAsync(string section = "home")
     {
-        private readonly IHttpClient4Nyt _httpClient4Nyt;
+        var response = await httpClient4Nyt.GetArticlesAsync(section);
 
-        public NytTopStoriesApiHelper(IHttpClient4Nyt httpClient4Nyt)
+        if (!response.IsSuccessStatusCode)
         {
-            _httpClient4Nyt = httpClient4Nyt;
+            return [];
         }
 
-        public async Task<ArticleView[]> GetArticlesAsync(string section = "home")
-        {
-            var response = await _httpClient4Nyt.GetArticlesAsync(section);
+        var value = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return null;
-            }
+        var nytResponse = JsonSerializer.Deserialize<NytResponse>(value)!;
 
-            var value = await response.Content.ReadAsStringAsync();
-
-            var nytResponse = JsonConvert.DeserializeObject<NytResponse>(value);
-
-            return nytResponse.Results;
-        }
+        return nytResponse.Results;
     }
 }

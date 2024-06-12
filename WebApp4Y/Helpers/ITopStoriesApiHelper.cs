@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using WebApp4Y.ViewModels;
+﻿using WebApp4Y.ViewModels;
 
-namespace WebApp4Y.Helpers
+namespace WebApp4Y.Helpers;
+
+public interface ITopStoriesApiHelper
 {
-    public interface ITopStoriesApiHelper
-    {
-        Task<ArticleView[]> GetArticlesAsync(string section = "home");
-    }
+    Task<ArticleView[]> GetArticlesAsync(string section = "home");
 }

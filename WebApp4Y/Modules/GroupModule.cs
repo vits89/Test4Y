@@ -1,38 +1,36 @@
-﻿using System.Linq;
-using Nancy;
+﻿using Nancy;
 using WebApp4Y.Helpers;
 using WebApp4Y.ViewModels;
 
-namespace WebApp4Y.Modules
+namespace WebApp4Y.Modules;
+
+public class GroupModule : NancyModule
 {
-    public class GroupModule : NancyModule
+    private readonly ITopStoriesApiHelper _nytTopStoriesApiHelper;
+
+    public GroupModule(ITopStoriesApiHelper nytTopStoriesApiHelper) : base("/group")
     {
-        private readonly ITopStoriesApiHelper _nytTopStoriesApiHelper;
+        _nytTopStoriesApiHelper = nytTopStoriesApiHelper;
 
-        public GroupModule(ITopStoriesApiHelper nytTopStoriesApiHelper) : base("/group")
+        Get("/{section}", async parameters =>
         {
-            _nytTopStoriesApiHelper = nytTopStoriesApiHelper;
+            string section = parameters.section;
 
-            Get("/{section}", async parameters =>
+            var articles = await _nytTopStoriesApiHelper.GetArticlesAsync(section);
+
+            if (articles is null)
             {
-                string section = parameters.section;
+                return HttpStatusCode.InternalServerError;
+            }
 
-                var articles = await _nytTopStoriesApiHelper.GetArticlesAsync(section);
-
-                if (articles == null)
+            return articles
+                .GroupBy(a => a.Updated.Date)
+                .OrderByDescending(g => g.Key)
+                .Select(g => new ArticleGroupByDateView
                 {
-                    return HttpStatusCode.InternalServerError;
-                }
-
-                return articles
-                    .GroupBy(a => a.Updated.Date)
-                    .OrderByDescending(g => g.Key)
-                    .Select(g => new ArticleGroupByDateView
-                    {
-                        Date = g.Key.ToString("yyyy-MM-dd"),
-                        Total = g.Count()
-                    });
-            });
-        }
+                    Date = g.Key.ToString("yyyy-MM-dd"),
+                    Total = g.Count()
+                });
+        });
     }
 }

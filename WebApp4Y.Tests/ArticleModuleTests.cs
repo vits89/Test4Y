@@ -1,10 +1,10 @@
+using System.Threading.Tasks;
 using Nancy;
 using Nancy.Testing;
-using Xunit;
 using WebApp4Y.Helpers;
 using WebApp4Y.Modules;
-using WebApp4Y.ViewModels;
 using WebApp4Y.Tests.Helpers;
+using WebApp4Y.ViewModels;
 
 namespace WebApp4Y.Tests;
 
@@ -24,7 +24,7 @@ public class ArticleModuleTests
     }
 
     [Fact]
-    public async void Test1()
+    public async Task Test1()
     {
         var response = await _browser.Get("/article/2VB2HIZ");
 
@@ -36,7 +36,7 @@ public class ArticleModuleTests
     }
 
     [Fact]
-    public async void Test2()
+    public async Task Test2()
     {
         var response = await _browser.Get("/article/XXXXXXX");
 

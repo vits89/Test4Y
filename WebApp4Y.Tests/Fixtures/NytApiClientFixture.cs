@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Threading.Tasks;
-using WebApp4Y.Helpers;
+using Moq;
+using WebApp4Y.Infrastructure;
 using WebApp4Y.ViewModels;
 
-namespace WebApp4Y.Tests.Helpers;
+namespace WebApp4Y.Tests.Fixtures;
 
-class FakeTopStoriesApiHelper : ITopStoriesApiHelper
+public class NytApiClientFixture
 {
-    public Task<ArticleView[]> GetArticlesAsync(string section = "home")
+    public INytApiClient ApiClient { get; }
+
+    public NytApiClientFixture()
     {
         var articles = new[]
         {
@@ -31,6 +33,12 @@ class FakeTopStoriesApiHelper : ITopStoriesApiHelper
             }
         };
 
-        return Task.FromResult(articles);
+        var apiClientMock = new Mock<INytApiClient>();
+
+        apiClientMock
+            .Setup(c => c.GetArticlesAsync(It.IsAny<string>()))
+            .ReturnsAsync(articles);
+
+        ApiClient = apiClientMock.Object;
     }
 }

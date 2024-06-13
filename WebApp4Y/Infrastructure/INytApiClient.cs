@@ -1,8 +1,8 @@
 ﻿using WebApp4Y.ViewModels;
 
-namespace WebApp4Y.Helpers;
+namespace WebApp4Y.Infrastructure;
 
-public interface ITopStoriesApiHelper
+public interface INytApiClient
 {
     Task<ArticleView[]> GetArticlesAsync(string section = "home");
 }

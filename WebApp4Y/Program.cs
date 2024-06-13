@@ -1,13 +1,19 @@
-﻿using Nancy.Owin;
-using WebApp4Y.Helpers;
-using WebApp4Y.Models;
+﻿using WebApp4Y.Endpoints;
+using WebApp4Y.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var apiOptions = ConfigurationBinder.Get<ApiOptions>(builder.Configuration.GetSection("Api"))!;
+builder.Services.AddNytApiClient((settings, configuration) =>
+{
+    configuration.GetSection("NytApi").Bind(settings);
+});
 
 var app = builder.Build();
 
-app.UseOwin(b => b.UseNancy(o => o.Bootstrapper = new CustomBootstrapper(apiOptions)));
+app
+    .MapHomeEndpoints()
+    .MapArticleEndpoints()
+    .MapGroupEndpoints()
+    .MapListEndpoints();
 
 app.Run();

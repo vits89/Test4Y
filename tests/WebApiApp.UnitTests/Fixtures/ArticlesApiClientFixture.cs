@@ -38,6 +38,9 @@ public class ArticlesApiClientFixture
         apiClientMock
             .Setup(c => c.GetArticlesAsync("home", It.IsAny<CancellationToken>()))
             .ReturnsAsync(articles);
+        apiClientMock
+            .Setup(c => c.GetArticlesAsync(It.Is((string s) => s != "home"), It.IsAny<CancellationToken>()))
+            .ReturnsAsync([]);
 
         ApiClient = apiClientMock.Object;
     }

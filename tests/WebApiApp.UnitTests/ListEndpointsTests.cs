@@ -23,7 +23,7 @@ public class ListEndpointsTests(ArticlesApiClientFixture apiClientFixture) : ICl
     }
 
     [Fact]
-    public async Task GetFirstArticle_ForSpecifiedSection_ReturnsFirstArticle()
+    public async Task GetFirstArticle_ForExistingSection_ReturnsFirstArticle()
     {
         var results = await ListEndpoints.GetFirstArticle("home", apiClientFixture.ApiClient, CancellationToken.None);
 
@@ -37,7 +37,15 @@ public class ListEndpointsTests(ArticlesApiClientFixture apiClientFixture) : ICl
     }
 
     [Fact]
-    public async Task GetArticlesByUpdatedDate_ForSpecifiedSectionAndUpdatedDate_ReturnsFilteredArticles()
+    public async Task GetFirstArticle_ForNonExistingSection_ReturnsNoContentResult()
+    {
+        var results = await ListEndpoints.GetFirstArticle("XXX", apiClientFixture.ApiClient, CancellationToken.None);
+
+        Assert.IsType<NoContent>(results.Result);
+    }
+
+    [Fact]
+    public async Task GetArticlesByUpdatedDate_ForExistingUpdatedDate_ReturnsFilteredArticles()
     {
         var results = await ListEndpoints.GetArticlesByUpdatedDate(
             "home",
@@ -52,5 +60,17 @@ public class ListEndpointsTests(ArticlesApiClientFixture apiClientFixture) : ICl
         var articles = ((Ok<IEnumerable<ArticleView>>)result).Value;
 
         Assert.Equal(2, articles.Count());
+    }
+
+    [Fact]
+    public async Task GetArticlesByUpdatedDate_ForNonExistingUpdatedDate_ReturnsNoContentResult()
+    {
+        var results = await ListEndpoints.GetArticlesByUpdatedDate(
+            "home",
+            DateTime.Parse("2019-05-19"),
+            apiClientFixture.ApiClient,
+            CancellationToken.None);
+
+        Assert.IsType<NoContent>(results.Result);
     }
 }

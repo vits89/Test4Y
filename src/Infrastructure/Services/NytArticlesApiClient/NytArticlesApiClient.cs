@@ -20,7 +20,7 @@ public class NytArticlesApiClient : IArticlesApiClient
         string section,
         CancellationToken cancellationToken)
     {
-        var response = await _httpClient.GetFromJsonAsync<Response>($"/{section}.json", cancellationToken);
+        var response = await _httpClient.GetFromJsonAsync<Response>($"{section}.json", cancellationToken);
 
         var articles = response?.Articles
             ?.Select(a => new CoreArticle

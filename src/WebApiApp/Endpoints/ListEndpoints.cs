@@ -12,7 +12,7 @@ public static class ListEndpoints
 
         groupBuilder.MapGet("/", GetArticles);
         groupBuilder.MapGet("/first", GetFirstArticle);
-        groupBuilder.MapGet("/{updatedDate:datetime(yyyy-MM-dd)}", GetArticlesByUpdatedDate);
+        groupBuilder.MapGet("/{updatedDate:datetime}", GetArticlesByUpdatedDate);
 
         return builder;
     }

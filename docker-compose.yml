@@ -1,0 +1,6 @@
+services:
+  webapiapp:
+    image: ${DOCKER_REGISTRY-}test4ywebapiapp
+    build:
+      context: .
+      dockerfile: src/Test4Y.WebApiApp/Dockerfile

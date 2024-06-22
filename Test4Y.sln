@@ -7,13 +7,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{64EBFE87-96C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7ABEC01B-E0E4-439A-B54D-ED59E387264D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Core\Core.csproj", "{A116984A-8F5E-4EC7-96E4-291953491C73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test4Y.Core", "src\Test4Y.Core\Test4Y.Core.csproj", "{A116984A-8F5E-4EC7-96E4-291953491C73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{0670CD9D-592B-4150-84A4-3144E44C3B29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test4Y.Infrastructure", "src\Test4Y.Infrastructure\Test4Y.Infrastructure.csproj", "{0670CD9D-592B-4150-84A4-3144E44C3B29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiApp", "src\WebApiApp\WebApiApp.csproj", "{5BA5C741-6988-4591-833E-F47B915061EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test4Y.WebApiApp", "src\Test4Y.WebApiApp\Test4Y.WebApiApp.csproj", "{5BA5C741-6988-4591-833E-F47B915061EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiApp.UnitTests", "tests\WebApiApp.UnitTests\WebApiApp.UnitTests.csproj", "{1A425644-852A-4C9D-A5EE-1E91BE485AA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test4Y.WebApiApp.UnitTests", "tests\Test4Y.WebApiApp.UnitTests\Test4Y.WebApiApp.UnitTests.csproj", "{1A425644-852A-4C9D-A5EE-1E91BE485AA2}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AE38E3A1-10D6-4EA1-98C8-4B1F90C215DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{1A425644-852A-4C9D-A5EE-1E91BE485AA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A425644-852A-4C9D-A5EE-1E91BE485AA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A425644-852A-4C9D-A5EE-1E91BE485AA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE38E3A1-10D6-4EA1-98C8-4B1F90C215DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE38E3A1-10D6-4EA1-98C8-4B1F90C215DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE38E3A1-10D6-4EA1-98C8-4B1F90C215DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE38E3A1-10D6-4EA1-98C8-4B1F90C215DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

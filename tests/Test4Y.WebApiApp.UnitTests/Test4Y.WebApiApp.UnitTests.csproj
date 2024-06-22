@@ -4,10 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-
-    <AssemblyName>$(SolutionName).$(MSBuildProjectName)</AssemblyName>
-
-    <RootNamespace>$(SolutionName).$(MSBuildProjectName)</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Core\Core.csproj" />
-    <ProjectReference Include="..\..\src\WebApiApp\WebApiApp.csproj" />
+    <ProjectReference Include="..\..\src\Test4Y.Core\Test4Y.Core.csproj" />
+    <ProjectReference Include="..\..\src\Test4Y.WebApiApp\Test4Y.WebApiApp.csproj" />
   </ItemGroup>
 
 </Project>

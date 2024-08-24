@@ -2,8 +2,6 @@
 **/.dockerignore
 **/.env
 **/.git
-**/.gitattributes
-**/.gitignore
 **/.project
 **/.settings
 **/.toolstarget
@@ -25,7 +23,7 @@
 LICENSE
 README.md
 TestTask.pdf
-!**/.gitignore
+!**/docker-compose.dcproj
 !.git/HEAD
 !.git/config
 !.git/packed-refs

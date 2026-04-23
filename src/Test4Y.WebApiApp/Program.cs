@@ -26,4 +26,4 @@ app
     .MapGroupEndpoints()
     .MapListEndpoints();
 
-app.Run();
+await app.RunAsync();

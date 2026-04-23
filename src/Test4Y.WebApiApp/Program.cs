@@ -21,7 +21,6 @@ if (app.Environment.IsDevelopment())
 
 app
     .MapGroup(string.Empty)
-    .WithOpenApi()
     .MapHomeEndpoints()
     .MapArticleEndpoints()
     .MapGroupEndpoints()
